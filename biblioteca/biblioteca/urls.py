@@ -1,7 +1,7 @@
 from django.contrib import admin 
 from django.urls import path, include 
 from rest_framework import routers 
-from livros.views import AutorViewSet, LivroViewSet 
+from livros.views import AutorViewSet, LivroViewSet, LivroListView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView 
 from drf_yasg.views import get_schema_view 
 from drf_yasg import openapi 
@@ -12,7 +12,9 @@ router = routers.DefaultRouter()
 
 router.register(r'autores', AutorViewSet) 
 
-router.register(r'livros', LivroViewSet) 
+router.register(r'livros', LivroViewSet)
+ 
+router.register(r'livros?autor_id=<int:id>', LivroListView) 
 
 schema_view = get_schema_view( 
     openapi.Info( 
