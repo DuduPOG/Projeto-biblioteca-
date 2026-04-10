@@ -17,6 +17,23 @@ class LivroViewSet(viewsets.ModelViewSet):
     serializer_class = LivroSerializer 
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
+    def get_queryset(self):
+        queryset = Livro.objects.all()
+        titulo = self.request.query_params.get('titulo')
+        ano = self.request.query_params.get('ano_publicacao')
+
+        if titulo:
+            queryset = queryset.filter(titulo__icontains = titulo)
+        if ano:
+            queryset = queryset.filter(ano_publicacao = ano)
+        return queryset
+    
+    def create(self, request, *args, **kwargs):
+        
+        print(request.data)
+        
+        return super().create(request, *args, **kwargs)
+    
 class LivroListView(APIView):
     
     def get(self, request):
@@ -31,3 +48,19 @@ class LivroListView(APIView):
                 )
         serializer = LivroSerializer(livros, many=True)
         return Response(serializer.data)
+
+class AutorListView(APIView):
+    
+    def get(self, request):
+        autor_id = request.query_params.get('autor')
+        autores = Autor.objects.all()
+        if autor_id:
+            try:
+                autores = autores.filter(autor_id=int(autor_id))
+            except ValueError:
+                return Response({"erro": "ID do autor deve ser um número válido"},
+                status=status.HTTP_400_BAD_REQUEST
+                )
+        serializer = AutorSerializer(autores, many=True)
+        return Response(serializer.data)
+ 

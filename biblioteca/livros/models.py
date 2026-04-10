@@ -12,7 +12,7 @@ class Autor(models.Model):
         verbose_name_plural = 'Autores'
     
     def __str__(self): 
-        return self.nome 
+        return f"{self.nome} - {self.nacionalidade}"
 
 
 class Livro(models.Model): 
@@ -28,4 +28,4 @@ class Livro(models.Model):
         verbose_name_plural = 'Livros'
     
     def __str__(self): 
-        return self.titulo 
+        return f"{self.titulo} - {self.ano_publicacao}"
