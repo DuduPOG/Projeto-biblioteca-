@@ -41,9 +41,25 @@ INSTALLED_APPS = [
     'livros',                  
     'rest_framework',         
     'rest_framework_simplejwt',
-    'drf_yasg',
     'django_extensions',
-] 
+    'drf_spectacular',
+]
+
+REST_FRAMEWORK = {
+    
+    'DEFAULT_RENDERER_CLASSES': (
+        'drf_hal_json.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+    
+    'DEFAULT_PARSER_CLASSES': (
+        'drf_hal_json.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+    ),
+    
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

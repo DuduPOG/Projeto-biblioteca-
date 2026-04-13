@@ -1,5 +1,6 @@
 from django.contrib import admin 
-from django.urls import path, include 
+from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework import routers 
 from livros.views import AutorViewSet, LivroViewSet, LivroListView, AutorListView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView 
@@ -32,8 +33,9 @@ urlpatterns = [
     path('api/', include(router.urls)), 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), 
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), 
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'), 
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='redoc-ui'),
     path('livros/', LivroListView.as_view(), name='livro-list'),
     path('autores/', AutorListView.as_view(), name='autor-list'),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
 ]
